@@ -5,17 +5,19 @@ const config = require('../config');
 
 class ExchangeRate {
     constructor() {
-        this.exchangeRate = config.exchangeRate;
+        this.config = config.exchangeRate;
     }
 
     async getRate() {
-        const { appId, host } = this.exchangeRate;
+        const { appId, host } = this.config;
         const url = `${host}/api/latest.json?app_id=${appId}`;
         try {
             const { body } = await got.get(url, {
                 responseType: 'json',
             });
             const { base, rates } = body;
+
+            Logger.info('ExchangeRate, url: %s, method: get, base: %s, rates: %O', url, base, rates);
 
             return {
                 base,

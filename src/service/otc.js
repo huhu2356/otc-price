@@ -5,26 +5,23 @@ const config = require('../config');
 
 class Otc {
     constructor() {
-        this.exchangeRate = config.exchangeRate;
+        this.config = config.otc;
     }
 
-    async getRate() {
-        const { appId, host } = this.exchangeRate;
+    async getSellPrice() {
+        const { host } = this.config;
         const url = `${host}/v1/data/trade-market?coinId=2&currency=1&tradeType=sell&currPage=1&payMethod=0&country=37&blockType=general&online=1&range=0&amount=`;
         try {
             const { body } = await got.get(url, {
                 responseType: 'json',
             });
-            const { base, rates } = body;
+            const { data } = body;
 
-            Logger.info('ExchangeRate, url: %s, method: get, base: %s, rates: %O', url, base, rates);
+            Logger.info('Otc, url: %s, method: get, data: %O', url, data);
 
-            return {
-                base,
-                rates,
-            };
+            return { data };
         } catch (error) {
-            Logger.error('ExchangeRate, url: %s, method: get, stack: %s', url, error.stack);
+            Logger.error('Otc, url: %s, method: get, stack: %s', url, error.stack);
 
             throw error;
         }
