@@ -19,4 +19,8 @@ module.exports = {
         host: 'https://openexchangerates.org',
         appId: process.env.EXCHANGE_RATES_APP_ID,
     },
+
+    otc: {
+        host: 'https://otc-api-hk.eiijo.cn',
+    },
 };
